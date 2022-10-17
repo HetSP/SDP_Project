@@ -8,6 +8,8 @@ import 'package:bakery_project/pages/home.dart';
 import 'package:bakery_project/pages/login.dart';
 import 'package:bakery_project/pages/main.dart';
 import 'package:bakery_project/pages/signup.dart';
+import 'package:bakery_project/pages/users.dart';
+import 'package:bakery_project/pages/cart.dart';
 import 'package:get_storage/get_storage.dart';
 
 // void main() async{
@@ -88,7 +90,7 @@ Future<void> main() async {
   runApp(MaterialApp(
     debugShowCheckedModeBanner: false,
     // home:MyApp(),
-    initialRoute: (ctrl.IsLoggedIn() == true)?'/mainPage':'/login',
+    initialRoute: (ctrl.IsLoggedIn() == true)?'/home':'/login',
     // initialRoute: '/home',
     routes: {
       '/home': (context) => Home(),
@@ -96,6 +98,8 @@ Future<void> main() async {
       '/signup': (context) => SignUp(),
       '/mainPage': (context) => MainPage(),
       '/addItem': (context) => AddItem(),
+      '/cart': (context) => Cart(),
+      '/users': (context) => Users(),
     },
   ));
 }

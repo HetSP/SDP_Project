@@ -6,8 +6,9 @@ class Login extends StatelessWidget {
 
   Widget build(BuildContext context){
     return Scaffold(
-      backgroundColor: Color.fromRGBO(255, 255, 255, 1),
+      backgroundColor: Color.fromRGBO(255, 248, 220,1),
       appBar: AppBar(
+        backgroundColor: Colors.orange,
         title: Text("Login",
           style: TextStyle(
             fontWeight: FontWeight.bold,
@@ -25,16 +26,19 @@ class MyStatefulWidget extends StatefulWidget{
 
 class StateWidget extends State<MyStatefulWidget>{
 
+
+
   Controller ctrl = new Controller();
 
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
 
   Widget build(BuildContext context){
+    // ctrl.logout();
     double w = MediaQuery.of(context).size.width;
     double h =  MediaQuery.of(context).size.height;
     return Scaffold(
-      backgroundColor: Color.fromRGBO(255, 255, 255, 1),
+      backgroundColor: Color.fromRGBO(255, 248, 220,1),
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -67,13 +71,14 @@ class StateWidget extends State<MyStatefulWidget>{
                   ),
                   focusedBorder: OutlineInputBorder(
                     borderSide: BorderSide(
-                      color: Color.fromRGBO(0, 0, 255, 1),
+                      color: Colors.orange,
                     ),
                     borderRadius: BorderRadius.circular(25),
                   ),
                   labelText: "Username/Email",
                   labelStyle: TextStyle(
                     fontSize: 18,
+                    color: Colors.orange,
                   ),
                 ),
               ),
@@ -88,13 +93,14 @@ class StateWidget extends State<MyStatefulWidget>{
                   ),
                   focusedBorder: OutlineInputBorder(
                     borderSide: BorderSide(
-                      color: Color.fromRGBO(0, 0, 255, 1),
+                      color: Colors.orange,
                     ),
                     borderRadius: BorderRadius.circular(25),
                   ),
                   labelText: "Password",
                   labelStyle: TextStyle(
                     fontSize: 18,
+                    color: Colors.orange,
                   ),
                 ),
                 obscureText: true,
@@ -124,7 +130,7 @@ class StateWidget extends State<MyStatefulWidget>{
                               ctrl.setLogin(email);
                             }
                             print("Login Successful!!");
-                            Navigator.pushNamed(context, '/mainPage');
+                            Navigator.pushNamed(context, '/home');
                           }
                         });
 
@@ -143,6 +149,9 @@ class StateWidget extends State<MyStatefulWidget>{
 
                     // Navigator.pushNamed(context, "/signup");
                   },
+                  style: ElevatedButton.styleFrom(
+                    primary: Colors.orange, // Background color
+                  ),
                   child: Padding(
                     padding: const EdgeInsets.fromLTRB(30,15,30,15),
                     child: Text("Login",
@@ -150,13 +159,6 @@ class StateWidget extends State<MyStatefulWidget>{
                         fontSize: 20,
                       ),),
                   ),
-                  style: ButtonStyle(
-                      shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                          RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(25.0),
-                          )
-                      )
-                  )
               ),
             ),
             SizedBox(height: h*0.1),

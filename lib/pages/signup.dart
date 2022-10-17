@@ -30,8 +30,9 @@ class _SignUpState extends State<SignUp> {
     }
 
     return Scaffold(
-      backgroundColor: Color.fromRGBO(255, 255, 255, 1),
+      backgroundColor: Color.fromRGBO(255, 248, 220,1),
       appBar: AppBar(
+        backgroundColor: Colors.orange,
         title: Text('Signup'),
       ),
       body: SingleChildScrollView(
@@ -63,21 +64,20 @@ class _SignUpState extends State<SignUp> {
               padding: EdgeInsets.fromLTRB(w*0.06, h*0.01, w*0.06, h*0.01),
               child: TextField(
                 controller: nameController,
-                onChanged: (text) => validateName(nameController.text),
                 decoration: InputDecoration(
-                  errorText: (error_occured)?'':"Error Occured",
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(25),
                   ),
                   focusedBorder: OutlineInputBorder(
                     borderSide: BorderSide(
-                      color: Color.fromRGBO(0, 0, 255, 1),
+                      color: Colors.orange,
                     ),
                     borderRadius: BorderRadius.circular(25),
                   ),
                   labelText: "Username",
                   labelStyle: TextStyle(
                     fontSize: 18,
+                      color: Colors.orange
                   ),
                 ),
               ),
@@ -92,13 +92,14 @@ class _SignUpState extends State<SignUp> {
                   ),
                   focusedBorder: OutlineInputBorder(
                     borderSide: BorderSide(
-                      color: Color.fromRGBO(0, 0, 255, 1),
+                      color: Colors.orange,
                     ),
                     borderRadius: BorderRadius.circular(25),
                   ),
                   labelText: "Email",
                   labelStyle: TextStyle(
                     fontSize: 18,
+                    color: Colors.orange,
                   ),
                 ),
               ),
@@ -113,13 +114,14 @@ class _SignUpState extends State<SignUp> {
                   ),
                   focusedBorder: OutlineInputBorder(
                     borderSide: BorderSide(
-                      color: Color.fromRGBO(0, 0, 255, 1),
+                      color: Colors.orange,
                     ),
                     borderRadius: BorderRadius.circular(25),
                   ),
                   labelText: "Number",
                   labelStyle: TextStyle(
                     fontSize: 18,
+                      color: Colors.orange,
                   ),
                 ),
                 keyboardType: TextInputType.number,
@@ -135,13 +137,14 @@ class _SignUpState extends State<SignUp> {
                   ),
                   focusedBorder: OutlineInputBorder(
                     borderSide: BorderSide(
-                      color: Color.fromRGBO(0, 0, 255, 1),
+                      color: Colors.orange,
                     ),
                     borderRadius: BorderRadius.circular(25),
                   ),
                   labelText: "Password",
                   labelStyle: TextStyle(
                     fontSize: 18,
+                      color: Colors.orange,
                   ),
                 ),
                 obscureText:true,
@@ -162,6 +165,9 @@ class _SignUpState extends State<SignUp> {
                     print(username + " " +  number);
                     createUser(username, password, number, email);
                   },
+                  style: ElevatedButton.styleFrom(
+                    primary: Colors.orange, // Background color
+                  ),
                   child: Padding(
                     padding: const EdgeInsets.fromLTRB(30,15,30,15),
                     child: Text("Sign Up",
@@ -169,13 +175,6 @@ class _SignUpState extends State<SignUp> {
                         fontSize: 20,
                       ),),
                   ),
-                  style: ButtonStyle(
-                      shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                          RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(25.0),
-                          )
-                      )
-                  )
               ),
             ),
             SizedBox(height: 70),

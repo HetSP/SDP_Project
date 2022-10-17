@@ -1,91 +1,30 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:bakery_project/services/controller.dart';
-import 'package:bakery_project/models/item.dart';
 
-import '../services/itemService.dart';
 
-class Home extends StatefulWidget {
-  // const Home({Key? key}) : super(key: key);
+class Users extends StatefulWidget {
+  // const Users({Key? key}) : super(key: key);
 
   @override
-  State<Home> createState() => _HomeState();
+  State<Users> createState() => _UsersState();
 }
 
-class _HomeState extends State<Home> {
+class _UsersState extends State<Users> {
   Controller ctrl = new Controller();
-  double h = 0, w = 0;
-  List<Item> userCart = [];
-  Stream<List<Item>> readItems() => FirebaseFirestore.instance
-      .collection('items')
-      .snapshots()
-      .map((snapshot) =>
-          snapshot.docs.map((doc) => Item.fromJson(doc.data())).toList());
-
-  Widget buildItem(Item item) => Card(
-        margin: EdgeInsets.fromLTRB(10, 10, 10, 0),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(15.0),
-        ),
-        color: Color.fromRGBO(255, 248, 220,1),
-        child: Padding(
-          padding: EdgeInsets.fromLTRB(5, 5, 5, 5),
-          child: IntrinsicHeight(
-            child: Row(
-              // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.all(7.0),
-                  child: Image.network(item.url, height: h * 0.15, width: w * 0.30),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                    Text(
-                      item.name,
-                      style: TextStyle(fontSize: 25),
-                    ),
-                    Text(
-                      item.flavour,
-                      style: TextStyle(fontSize: 20),
-                    ),
-                    Text(
-                      item.price.toString(),
-                      style: TextStyle(fontSize: 20),
-                    ),
-                        (!ctrl.IsAdmin())?
-                          TextButton(onPressed: (){
-                            userCart.add(item);
-                            userCart.forEach((item) {
-                              print(item.name + " " + item.flavour + " " + item.price.toString());
-                            });
-                          }, child: Text(
-                            'Add to Cart',
-                            style: TextStyle(
-                              fontSize: 20,
-                              color: Colors.orange,
-                            ),
-                          )):Text(''),
-                  ]),
-                ),
-              ],
-            ),
-          ),
-        ),
-      );
+  double w = 0, h = 0;
+  final CollectionReference _users =
+      FirebaseFirestore.instance.collection('users');
 
   @override
   Widget build(BuildContext context) {
     w = MediaQuery.of(context).size.width;
     h = MediaQuery.of(context).size.height;
-
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.orange,
         title: Text(
-          'Items',
+          'All Users',
           style: TextStyle(
             fontWeight: FontWeight.w500,
           ),
@@ -95,21 +34,39 @@ class _HomeState extends State<Home> {
         child: Column(
           children: [
             Container(
-              height: h * 0.82,
-              child: StreamBuilder<List<Item>>(
-                  stream: readItems(),
-                  builder: (context, snapshot) {
-                    if (snapshot.hasError) {
-                      return Text("Error occured!!!");
-                    } else if (snapshot.hasData) {
-                      final Items = snapshot.data;
-                      return ListView(
-                        children: Items!.map(buildItem).toList(),
-                      );
-                    } else {
-                      return Text("Loading...");
-                    }
-                  }),
+              height: h*0.82,
+              child: StreamBuilder(
+                stream: _users.snapshots(),
+                builder: (context, AsyncSnapshot<QuerySnapshot> streamSnapshot) {
+                  if (streamSnapshot.hasData) {
+                    return ListView.builder(
+                        itemCount: streamSnapshot.data!.docs.length,
+                        itemBuilder: (context, index) {
+                          final DocumentSnapshot documentSnapshot =
+                              streamSnapshot.data!.docs[index];
+                          return Card(
+                              margin: const EdgeInsets.all(10),
+                              color: Color.fromRGBO(255, 248, 220,1),
+                              child: ListTile(
+                                  title: Text(documentSnapshot['username']),
+                                  subtitle: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                          documentSnapshot['email'].toString()),
+                                      Text(
+                                        documentSnapshot['number'].toString()
+                                      ),
+                                    ],
+                                  ),
+                              )
+                          );
+                        });
+                  } else {
+                    return Text("Eror");
+                  }
+                },
+              ),
             ),
             Container(
               child: InkWell(
@@ -128,8 +85,7 @@ class _HomeState extends State<Home> {
                                     children: [
                                       GestureDetector(
                                         onTap: () {
-                                          Navigator.pushNamed(
-                                              context, "/users");
+                                          Navigator.pushNamed(context, "/users");
                                         },
                                         child: Icon(
                                           Icons.account_circle_rounded,
@@ -188,19 +144,14 @@ class _HomeState extends State<Home> {
                                 ],
                               )
                             : Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceAround,
+                                mainAxisAlignment: MainAxisAlignment.spaceAround,
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
                                   Column(
                                     children: [
                                       GestureDetector(
                                         onTap: () {
-                                          addToCard(userCart);
-
-
-                                          Navigator.pushNamed(
-                                              context, "/cart");
+                                          Navigator.pushNamed(context, "/cart");
                                         },
                                         child: Icon(
                                           Icons.shopping_cart,
@@ -230,7 +181,6 @@ class _HomeState extends State<Home> {
                                           children: [
                                             GestureDetector(
                                               onTap: () {
-                                                userCart.clear();
                                                 Navigator.pushNamed(
                                                     context, "/login");
                                               },
