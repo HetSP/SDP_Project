@@ -144,7 +144,7 @@ class StateWidget extends State<MyStatefulWidget>{
                       }
                     }
                     AlertDialog(
-                      title: Text('Invalid Credentials <-----------------------------------------------'),
+                      title: Text('Invalid Credentials!!'),
                     );
 
                     // Navigator.pushNamed(context, "/signup");
