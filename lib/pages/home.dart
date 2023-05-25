@@ -225,21 +225,21 @@ class _HomeState extends State<Home> {
                                       )
                                     ],
                                   ),
-                                  Column(
-                                    children: [
-                                      GestureDetector(
-                                        onTap: () {
-                                          Navigator.pushNamed(
-                                              context, "/orders");
-                                        },
-                                        child: Icon(
-                                          Icons.check_circle_outline_rounded,
-                                          size: w * 0.09,
-                                          color: Colors.black,
-                                        ),
-                                      )
-                                    ],
-                                  ),
+                                  // Column(
+                                  //   children: [
+                                  //     GestureDetector(
+                                  //       onTap: () {
+                                  //         Navigator.pushNamed(
+                                  //             context, "/orders");
+                                  //       },
+                                  //       child: Icon(
+                                  //         Icons.check_circle_outline_rounded,
+                                  //         size: w * 0.09,
+                                  //         color: Colors.black,
+                                  //       ),
+                                  //     )
+                                  //   ],
+                                  // ),
                                   (ctrl.IsLoggedIn() == false)
                                       ? Column(
                                           children: [

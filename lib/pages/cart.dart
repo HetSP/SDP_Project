@@ -17,6 +17,7 @@ class _CartState extends State<Cart> {
   TextEditingController quantityController = new TextEditingController();
   num price = 0;
   List<Item> userCart = getCart();
+  num len = getCart().length;
   double w = 0, h = 0;
   Widget buildItem(Item item) => Card(
         margin: EdgeInsets.fromLTRB(10, 10, 10, 0),
@@ -34,7 +35,7 @@ class _CartState extends State<Cart> {
                   padding: const EdgeInsets.all(7.0),
                   child: Image.network(item.url,
                       height: h * 0.15, width: w * 0.30),
-                ),
+                  ),
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Column(
@@ -67,6 +68,19 @@ class _CartState extends State<Cart> {
                           ),
                         ),
                       ]),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Expanded(
+                      child: IconButton(
+                        onPressed: (){
+                          setState(() {
+                            userCart.remove(item);
+                          });
+                        },
+                        icon: Icon(Icons.delete),
+                      )
+                  ),
                 ),
               ],
             ),
@@ -104,7 +118,7 @@ class _CartState extends State<Cart> {
                   int totQuantity = 0, totPrice = 0;
                   userCart.forEach((element) {
                     totQuantity += int.parse(quantityController.text);
-                    totPrice += element.price;
+                    totPrice += element.price * int.parse(quantityController.text);
                   });
                   String username = ctrl.box.read("email");
                   print(totPrice.toString() +
@@ -117,6 +131,8 @@ class _CartState extends State<Cart> {
                   final user = Order(username, totPrice, totQuantity);
                   final json = user.toJson();
                   await fbcol.set(json);
+                  userCart.clear();
+                  Navigator.pushNamed(context, "/home");
                 },
                 child: Text('Place Order')),
             Container(
